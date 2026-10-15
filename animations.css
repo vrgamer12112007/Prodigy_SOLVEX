@@ -1,0 +1,109 @@
+/* ═══════════════════════════════════════════════════════════
+   Prodigy Solvex v4.0 — HUD Animation Layer
+   Separate file: adds entrance animations, glow, ripples.
+   Loaded AFTER content.css so animations override defaults.
+   Does NOT modify existing pixel-gamer / kawaii-teddy themes.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Keyframes ── */
+@keyframes ps4-slide-in-right {
+  from { opacity: 0; transform: translateX(60px) scale(0.92); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes ps4-glow-pulse {
+  0%, 100% { box-shadow: 0 12px 36px -4px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05); }
+  50% { box-shadow: 0 12px 48px -4px rgba(0,0,0,0.6), 0 0 30px rgba(99,102,241,0.3); }
+}
+@keyframes ps4-dot-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+}
+@keyframes ps4-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(3deg); }
+}
+@keyframes ps4-banner-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-25px) scale(0.92); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+@keyframes ps4-toast-slide {
+  from { opacity: 0; transform: translateY(40px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes ps4-ripple {
+  0% { transform: scale(0); opacity: 0.5; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+/* ── HUD widget entrance + continuous glow ── */
+#prodigy-solvex-host .ps-widget {
+  animation: ps4-slide-in-right 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+#prodigy-solvex-host .ps-widget:not(.minimized) {
+  animation: ps4-slide-in-right 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+             ps4-glow-pulse 4s ease-in-out infinite 0.6s !important;
+}
+
+/* ── Mascot floating ── */
+#prodigy-solvex-host .ps-brand-mascot {
+  animation: ps4-float 2.5s ease-in-out infinite !important;
+  display: inline-block;
+}
+
+/* ── Solve button ripple on click ── */
+#prodigy-solvex-host .ps-btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+#prodigy-solvex-host .ps-btn-primary::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+#prodigy-solvex-host .ps-btn-primary:active::after {
+  width: 300px; height: 300px;
+  animation: ps4-ripple 0.6s ease-out;
+}
+
+/* ── Status dot pulse when working ── */
+#prodigy-solvex-host .ps-pulse-dot.working {
+  animation: ps4-dot-pulse 1s ease-in-out infinite !important;
+}
+
+/* ── Answer banner entrance ── */
+#prodigy-solvex-host .ps-answer-banner.show {
+  animation: ps4-banner-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* ── Toast slide-in ── */
+#prodigy-solvex-host .ps-toast.show {
+  animation: ps4-toast-slide 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* ── Smooth transitions on all interactive elements ── */
+#prodigy-solvex-host .ps-btn-primary,
+#prodigy-solvex-host .ps-btn-secondary,
+#prodigy-solvex-host .ps-icon-btn,
+#prodigy-solvex-host .ps-btn-copy {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#prodigy-solvex-host .ps-btn-primary:hover,
+#prodigy-solvex-host .ps-btn-secondary:hover {
+  transform: translateY(-1px) !important;
+}
+
+#prodigy-solvex-host .ps-btn-primary:active,
+#prodigy-solvex-host .ps-btn-secondary:active {
+  transform: translateY(0) !important;
+}
+
+/* ── Watermark subtle fade-in ── */
+#prodigy-solvex-host .ps-hud-watermark {
+  animation: ps4-slide-in-right 1s ease 0.5s backwards;
+}

@@ -1,0 +1,1412 @@
+/* ===================================================================
+   PRODIGY SOLVEX — popup.css
+   Two themes:
+     • pixel-gamer (boys) — black + crimson red, 8-bit fonts, neon glow
+     • kawaii-teddy (girls) — pastel pink + cream, teddy bear mascot, hearts
+   Theme is selected by data-theme attribute on <html>.
+   =================================================================== */
+
+/* ----- 1. SHARED TOKENS (theme-independent) ----- */
+:root {
+  --ps-radius-sm: 6px;
+  --ps-radius-md: 12px;
+  --ps-radius-lg: 18px;
+  --ps-radius-pill: 9999px;
+  --ps-gap-xs: 4px;
+  --ps-gap-sm: 8px;
+  --ps-gap-md: 12px;
+  --ps-gap-lg: 16px;
+  --ps-transition: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ----- 2. PIXEL-GAMER THEME (BOYS) ----- */
+[data-theme="pixel-gamer"] {
+  --bg-app: #0a0a12;
+  --bg-card: #14101c;
+  --bg-card-2: #1c1828;
+  --bg-input: #221d2e;
+  --border: #2e2740;
+  --border-strong: #ff2d55;
+  --text: #ffffff;
+  --text-muted: #a8a4bc;
+  --text-dim: #6a6578;
+  --accent: #ff2d55;        /* crimson */
+  --accent-2: #ff6b35;      /* orange flame */
+  --accent-3: #ffeb3b;      /* arcade yellow */
+  --accent-glow: rgba(255, 45, 85, 0.5);
+  --success: #00ff9d;
+  --warning: #ffea00;
+  --danger: #ff1744;
+  --font-heading: 'Press Start 2P', 'VT323', monospace;
+  --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --shadow-card: 0 4px 16px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,45,85,0.12);
+  --shadow-accent: 0 0 20px var(--accent-glow);
+  --shadow-btn: 0 4px 0 #8b1530, 0 6px 12px rgba(255,45,85,0.4);
+  --mascot-emoji: "🎮";
+  --watermark-bg: rgba(255, 45, 85, 0.08);
+}
+
+/* ----- 3. KAWAII-TEDDY THEME (GIRLS) ----- */
+[data-theme="kawaii-teddy"] {
+  --bg-app: #fff5f8;
+  --bg-card: #ffffff;
+  --bg-card-2: #fff0f5;
+  --bg-input: #ffeef3;
+  --border: #ffc9d9;
+  --border-strong: #ff85a2;
+  --text: #4a2c3a;
+  --text-muted: #8a6677;
+  --text-dim: #b08e9d;
+  --accent: #ff6fa5;        /* soft pink */
+  --accent-2: #ffb3d1;      /* bubble pink */
+  --accent-3: #c084fc;      /* lavender */
+  --accent-glow: rgba(255, 111, 165, 0.35);
+  --success: #5ed4a6;
+  --warning: #ffb84d;
+  --danger: #ff6f91;
+  --font-heading: 'Quicksand', 'Comic Sans MS', system-ui, sans-serif;
+  --font-body: 'Nunito', 'Quicksand', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --shadow-card: 0 8px 24px rgba(255, 111, 165, 0.15), 0 0 0 1px rgba(255, 201, 217, 0.4);
+  --shadow-accent: 0 4px 16px var(--accent-glow);
+  --shadow-btn: 0 4px 0 #d44d7e, 0 6px 12px rgba(255, 111, 165, 0.3);
+  --mascot-emoji: "🧸";
+  --watermark-bg: rgba(255, 111, 165, 0.06);
+}
+
+/* ----- 4. BASE / RESET ----- */
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 400px;
+  min-height: 540px;
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--bg-app);
+  font-size: 13px;
+  line-height: 1.5;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background texture per theme */
+[data-theme="pixel-gamer"] body {
+  background-image:
+    linear-gradient(rgba(255,45,85,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,45,85,0.04) 1px, transparent 1px),
+    radial-gradient(circle at 20% 10%, rgba(255,107,53,0.12), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255,45,85,0.15), transparent 50%);
+  background-size: 24px 24px, 24px 24px, 100% 100%, 100% 100%;
+}
+
+[data-theme="kawaii-teddy"] body {
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(255,179,209,0.4), transparent 35%),
+    radial-gradient(circle at 85% 70%, rgba(192,132,252,0.18), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(255,111,165,0.2), transparent 50%);
+  background-attachment: fixed;
+}
+
+/* ----- 5. WATERMARK (always visible, subtle) ----- */
+.ps-watermark {
+  position: fixed;
+  bottom: 6px;
+  right: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 100;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+}
+
+[data-theme="pixel-gamer"] .ps-watermark {
+  text-shadow: 0 0 4px var(--accent-glow);
+  opacity: 0.55;
+}
+
+[data-theme="kawaii-teddy"] .ps-watermark {
+  background: var(--watermark-bg);
+  padding: 2px 6px;
+  border-radius: var(--ps-radius-pill);
+  border: 1px solid var(--border);
+}
+
+/* ----- 6. POPUP CONTAINER ----- */
+.ps-container {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ps-gap-md);
+}
+
+/* ----- 7. HEADER / BRAND ----- */
+.ps-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ps-gap-sm);
+  padding-bottom: 12px;
+  border-bottom: 2px dashed var(--border);
+}
+
+.ps-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ps-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--ps-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: var(--shadow-accent);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+[data-theme="pixel-gamer"] .ps-logo {
+  border-radius: 0; /* sharp arcade corners */
+  image-rendering: pixelated;
+  border: 2px solid var(--accent-3);
+}
+
+[data-theme="kawaii-teddy"] .ps-logo {
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 3px var(--accent-glow), 0 4px 12px var(--accent-glow);
+}
+
+.ps-brand-text h1 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: var(--text);
+}
+
+[data-theme="pixel-gamer"] .ps-brand-text h1 {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 8px var(--accent-glow);
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+[data-theme="kawaii-teddy"] .ps-brand-text h1 {
+  font-weight: 800;
+  color: var(--accent);
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.ps-version-tag {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+}
+
+[data-theme="pixel-gamer"] .ps-version-tag::before { content: "◆ "; color: var(--accent); }
+[data-theme="kawaii-teddy"] .ps-version-tag::before { content: "🌸 "; }
+
+/* ----- 8. THEME SWITCHER ----- */
+.ps-theme-switcher {
+  display: flex;
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-pill);
+  padding: 3px;
+  gap: 2px;
+}
+
+[data-theme="pixel-gamer"] .ps-theme-switcher {
+  border-radius: 0;
+  border: 2px solid var(--accent);
+}
+
+.ps-theme-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  cursor: pointer;
+  border-radius: var(--ps-radius-pill);
+  transition: all var(--ps-transition);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+[data-theme="pixel-gamer"] .ps-theme-btn {
+  border-radius: 0;
+  letter-spacing: 0.5px;
+  font-size: 9px;
+}
+
+.ps-theme-btn.active {
+  background: var(--accent);
+  color: white;
+  box-shadow: var(--shadow-accent);
+}
+
+[data-theme="pixel-gamer"] .ps-theme-btn.active {
+  background: var(--accent);
+  color: var(--accent-3);
+  text-shadow: 0 0 4px var(--accent-3);
+  border: 1px solid var(--accent-3);
+}
+
+.ps-theme-btn:not(.active):hover {
+  background: var(--bg-input);
+  color: var(--text);
+}
+
+/* ----- 9. MASCOT ZONE ----- */
+.ps-mascot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-md);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="pixel-gamer"] .ps-mascot {
+  border: 2px solid var(--accent);
+  border-radius: 0;
+  background:
+    repeating-linear-gradient(45deg, var(--bg-card) 0 8px, var(--bg-card-2) 8px 16px);
+}
+
+[data-theme="kawaii-teddy"] .ps-mascot {
+  border-radius: var(--ps-radius-lg);
+  background: linear-gradient(135deg, var(--bg-card-2), #fff);
+  box-shadow: var(--shadow-card);
+}
+
+.ps-mascot-avatar {
+  font-size: 32px;
+  flex-shrink: 0;
+  animation: ps-mascot-bob 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px var(--accent-glow));
+}
+
+[data-theme="pixel-gamer"] .ps-mascot-avatar {
+  animation: ps-mascot-pixel 0.6s steps(2) infinite;
+  image-rendering: pixelated;
+}
+
+@keyframes ps-mascot-bob {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-6px) rotate(3deg); }
+}
+
+@keyframes ps-mascot-pixel {
+  0% { transform: translateX(0) scaleX(1); }
+  50% { transform: translateX(2px) scaleX(0.98); }
+  100% { transform: translateX(0) scaleX(1); }
+}
+
+.ps-mascot.celebrating .ps-mascot-avatar {
+  animation: ps-mascot-celebrate 0.8s ease infinite;
+}
+
+@keyframes ps-mascot-celebrate {
+  0%, 100% { transform: rotate(-15deg) scale(1.2); }
+  50% { transform: rotate(15deg) scale(1.3); }
+}
+
+.ps-mascot-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.ps-mascot-name {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+[data-theme="pixel-gamer"] .ps-mascot-name {
+  color: var(--accent-3);
+  text-shadow: 0 0 4px var(--accent-glow);
+  letter-spacing: 1px;
+  font-size: 10px;
+}
+
+[data-theme="kawaii-teddy"] .ps-mascot-name {
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.ps-mascot-message {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ----- 10. CARDS ----- */
+.ps-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-md);
+  padding: 12px;
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--ps-transition);
+}
+
+[data-theme="pixel-gamer"] .ps-card {
+  border-radius: 0;
+  border-left: 3px solid var(--accent);
+}
+
+[data-theme="kawaii-teddy"] .ps-card {
+  border-radius: var(--ps-radius-lg);
+}
+
+.ps-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.ps-card-title {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+[data-theme="pixel-gamer"] .ps-card-title {
+  font-size: 10px;
+  color: var(--accent-3);
+  text-shadow: 0 0 4px var(--accent-glow);
+}
+
+[data-theme="kawaii-teddy"] .ps-card-title {
+  font-size: 13px;
+  color: var(--accent);
+  text-transform: none;
+}
+
+/* ----- 11. MASTER POWER TOGGLE ----- */
+.ps-power-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ps-power-info { display: flex; flex-direction: column; gap: 2px; }
+.ps-power-title { font-weight: 700; font-size: 13px; color: var(--text); }
+.ps-power-status {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+.ps-power-status.on { color: var(--success); }
+.ps-power-status.off { color: var(--text-dim); }
+
+.ps-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+.ps-switch input { opacity: 0; width: 0; height: 0; }
+.ps-slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border);
+  transition: var(--ps-transition);
+  border-radius: var(--ps-radius-pill);
+}
+[data-theme="pixel-gamer"] .ps-slider { border-radius: 0; }
+.ps-slider::before {
+  position: absolute; content: "";
+  height: 16px; width: 16px;
+  left: 3px; bottom: 3px;
+  background: var(--text-muted);
+  transition: var(--ps-transition);
+  border-radius: 50%;
+}
+[data-theme="pixel-gamer"] .ps-slider::before { border-radius: 0; }
+input:checked + .ps-slider { background-color: var(--accent); border-color: var(--accent); }
+input:checked + .ps-slider::before {
+  transform: translateX(20px);
+  background: white;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* ----- 12. FORM ELEMENTS ----- */
+.ps-form-group { display: flex; flex-direction: column; gap: 6px; }
+.ps-label-row { display: flex; justify-content: space-between; align-items: baseline; }
+.ps-label { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+.ps-subtext { font-size: 10px; color: var(--text-dim); }
+.ps-input {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-sm);
+  padding: 9px 12px;
+  color: var(--text);
+  font-size: 12px;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color var(--ps-transition), box-shadow var(--ps-transition);
+  width: 100%;
+}
+[data-theme="pixel-gamer"] .ps-input {
+  border-radius: 0;
+  font-family: var(--font-mono);
+  border-left: 2px solid var(--accent);
+}
+[data-theme="kawaii-teddy"] .ps-input { border-radius: var(--ps-radius-pill); }
+.ps-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.ps-input::placeholder { color: var(--text-dim); }
+
+.ps-input-row { display: flex; gap: 6px; align-items: stretch; }
+.ps-input-row .ps-input { flex: 1; }
+
+.ps-icon-btn {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-sm);
+  padding: 0 10px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all var(--ps-transition);
+}
+[data-theme="pixel-gamer"] .ps-icon-btn { border-radius: 0; }
+[data-theme="kawaii-teddy"] .ps-icon-btn { border-radius: var(--ps-radius-pill); }
+.ps-icon-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ----- 13. BUTTONS ----- */
+.ps-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border: none;
+  border-radius: var(--ps-radius-sm);
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--ps-transition);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+[data-theme="pixel-gamer"] .ps-btn {
+  border-radius: 0;
+  border: 2px solid var(--accent-3);
+  text-shadow: 0 0 4px var(--accent-glow);
+}
+[data-theme="kawaii-teddy"] .ps-btn {
+  border-radius: var(--ps-radius-pill);
+  text-transform: none;
+  letter-spacing: 0.2px;
+  font-size: 12px;
+}
+.ps-btn-primary {
+  background: var(--accent);
+  color: white;
+  box-shadow: var(--shadow-btn);
+}
+[data-theme="pixel-gamer"] .ps-btn-primary { color: var(--accent-3); }
+.ps-btn-primary:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.ps-btn-primary:active { transform: translateY(1px); box-shadow: 0 2px 0 #8b1530; }
+.ps-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.ps-btn-secondary {
+  background: var(--bg-card-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.ps-btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+.ps-btn-block { width: 100%; }
+
+/* ----- 14. KEYS LIST ----- */
+.ps-keys-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+.ps-keys-list::-webkit-scrollbar { width: 6px; }
+.ps-keys-list::-webkit-scrollbar-track { background: transparent; }
+.ps-keys-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.ps-key-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-sm);
+  font-size: 11px;
+}
+[data-theme="pixel-gamer"] .ps-key-item { border-radius: 0; border-left: 2px solid var(--accent); }
+[data-theme="kawaii-teddy"] .ps-key-item { border-radius: var(--ps-radius-pill); }
+
+.ps-key-status {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.ps-key-status.active { background: var(--success); box-shadow: 0 0 6px var(--success); }
+.ps-key-status.standby { background: var(--text-dim); }
+.ps-key-status.exhausted { background: var(--warning); }
+.ps-key-status.invalid { background: var(--danger); }
+
+.ps-key-text {
+  flex: 1; min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ps-key-actions { display: flex; gap: 4px; }
+.ps-key-mini-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: all var(--ps-transition);
+}
+.ps-key-mini-btn:hover { color: var(--accent); background: var(--bg-card-2); }
+
+/* ----- 15. STATS DASHBOARD ----- */
+.ps-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.ps-stat-tile {
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-sm);
+  padding: 10px;
+  text-align: center;
+}
+[data-theme="pixel-gamer"] .ps-stat-tile {
+  border-radius: 0;
+  border-left: 2px solid var(--accent-3);
+}
+[data-theme="kawaii-teddy"] .ps-stat-tile {
+  border-radius: var(--ps-radius-md);
+  background: linear-gradient(135deg, var(--bg-card-2), #fff);
+}
+
+.ps-stat-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+[data-theme="pixel-gamer"] .ps-stat-label { font-family: var(--font-heading); font-size: 8px; color: var(--accent-3); }
+[data-theme="kawaii-teddy"] .ps-stat-label { font-size: 11px; color: var(--accent); text-transform: none; }
+
+.ps-stat-value {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+[data-theme="pixel-gamer"] .ps-stat-value { color: var(--accent); text-shadow: 0 0 8px var(--accent-glow); }
+[data-theme="kawaii-teddy"] .ps-stat-value { color: var(--accent); font-size: 22px; }
+
+.ps-stat-sub {
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* Global stats row */
+.ps-global-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+.ps-global-stat { text-align: center; }
+.ps-global-stat strong {
+  display: block;
+  font-family: var(--font-heading);
+  color: var(--accent);
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+[data-theme="pixel-gamer"] .ps-global-stat strong { font-size: 11px; }
+[data-theme="kawaii-teddy"] .ps-global-stat strong { font-size: 14px; }
+
+/* ----- 16. HISTORY LOG ----- */
+.ps-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+.ps-history-list::-webkit-scrollbar { width: 6px; }
+.ps-history-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.ps-history-empty {
+  text-align: center;
+  padding: 24px 12px;
+  color: var(--text-dim);
+  font-size: 11px;
+  font-style: italic;
+}
+
+.ps-history-item {
+  display: flex;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-sm);
+  font-size: 11px;
+}
+[data-theme="pixel-gamer"] .ps-history-item { border-radius: 0; border-left: 2px solid var(--accent); }
+[data-theme="kawaii-teddy"] .ps-history-item { border-radius: var(--ps-radius-pill); }
+
+.ps-history-type {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  background: var(--accent);
+  color: white;
+  border-radius: var(--ps-radius-pill);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: var(--font-heading);
+  height: fit-content;
+}
+[data-theme="pixel-gamer"] .ps-history-type { border-radius: 0; font-size: 8px; padding: 2px 6px; }
+
+.ps-history-body { flex: 1; min-width: 0; }
+.ps-history-snippet {
+  color: var(--text);
+  font-size: 11px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ps-history-time {
+  font-size: 9.5px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  font-family: var(--font-mono);
+}
+
+/* ----- 17. SETTINGS TOGGLES ----- */
+.ps-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.ps-setting-row:last-child { border-bottom: none; }
+
+.ps-setting-info { flex: 1; min-width: 0; padding-right: 12px; }
+.ps-setting-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.ps-setting-desc {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.ps-badge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--ps-radius-pill);
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+[data-theme="pixel-gamer"] .ps-badge { border-radius: 0; font-size: 8px; }
+.ps-badge.on { background: var(--success); color: var(--bg-app); }
+.ps-badge.off { background: var(--bg-input); color: var(--text-dim); border: 1px solid var(--border); }
+
+/* ----- 18. RANGE SLIDER ----- */
+.ps-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--bg-input);
+  border-radius: var(--ps-radius-pill);
+  outline: none;
+  margin: 6px 0;
+}
+[data-theme="pixel-gamer"] .ps-range { border-radius: 0; height: 6px; background: var(--bg-app); border: 1px solid var(--border); }
+.ps-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+[data-theme="pixel-gamer"] .ps-range::-webkit-slider-thumb { border-radius: 0; border-color: var(--accent-3); }
+
+/* ----- 19. TABS / NAV ----- */
+.ps-tabs {
+  display: flex;
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-pill);
+  padding: 3px;
+  gap: 2px;
+  margin-bottom: 12px;
+}
+[data-theme="pixel-gamer"] .ps-tabs { border-radius: 0; border: 2px solid var(--accent); }
+
+.ps-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 7px 10px;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: var(--ps-radius-pill);
+  transition: all var(--ps-transition);
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+[data-theme="pixel-gamer"] .ps-tab {
+  border-radius: 0;
+  font-size: 9px;
+}
+[data-theme="kawaii-teddy"] .ps-tab { text-transform: none; font-size: 11px; }
+
+.ps-tab.active {
+  background: var(--accent);
+  color: white;
+  box-shadow: var(--shadow-accent);
+}
+[data-theme="pixel-gamer"] .ps-tab.active { color: var(--accent-3); }
+
+.ps-tab-content { display: none; }
+.ps-tab-content.active { display: block; animation: ps-fade-in 0.25s ease; }
+
+@keyframes ps-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ----- 20. FEEDBACK / TOAST ----- */
+.ps-feedback {
+  padding: 8px 10px;
+  border-radius: var(--ps-radius-sm);
+  font-size: 11px;
+  margin-top: 6px;
+  display: none;
+}
+[data-theme="pixel-gamer"] .ps-feedback { border-radius: 0; border-left: 2px solid; }
+[data-theme="kawaii-teddy"] .ps-feedback { border-radius: var(--ps-radius-md); }
+.ps-feedback.visible { display: block; animation: ps-fade-in 0.2s ease; }
+.ps-feedback.success { background: rgba(94, 212, 166, 0.12); color: var(--success); border-color: var(--success); }
+.ps-feedback.error { background: rgba(255, 23, 68, 0.12); color: var(--danger); border-color: var(--danger); }
+.ps-feedback.info { background: rgba(255, 111, 165, 0.12); color: var(--accent); border-color: var(--accent); }
+
+/* ----- 21. FOOTER ----- */
+.ps-footer {
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+.ps-shortcut kbd {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--text);
+}
+[data-theme="pixel-gamer"] .ps-shortcut kbd { border-radius: 0; border-color: var(--accent); }
+
+/* ----- 22. USERNAME EDIT PILLS ----- */
+.ps-username-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-card-2);
+  border: 1px dashed var(--accent);
+  border-radius: var(--ps-radius-pill);
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--ps-transition);
+}
+[data-theme="pixel-gamer"] .ps-username-pill { border-radius: 0; border-style: solid; }
+.ps-username-pill:hover { background: var(--accent); color: white; }
+
+/* ----- 23. FLOATING SPARKLES (kawaii only) ----- */
+[data-theme="kawaii-teddy"] .ps-sparkle {
+  position: fixed;
+  pointer-events: none;
+  font-size: 14px;
+  animation: ps-sparkle-fall 3s linear forwards;
+  z-index: 1;
+}
+
+@keyframes ps-sparkle-fall {
+  0% { opacity: 1; transform: translateY(-10px) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(60px) rotate(360deg); }
+}
+
+/* ----- 24. SCANLINE OVERLAY (pixel-gamer only) ----- */
+[data-theme="pixel-gamer"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0) 0,
+    rgba(0,0,0,0) 2px,
+    rgba(255,255,255,0.025) 2px,
+    rgba(255,255,255,0.025) 3px
+  );
+  z-index: 999;
+}
+
+/* ============================================================
+   26. ONBOARDING MODAL — first-launch welcome
+   ============================================================ */
+.ps-onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: ps-fade-in 0.25s ease;
+}
+
+[data-theme="pixel-gamer"] .ps-onboarding-overlay {
+  background: rgba(10, 10, 18, 0.85);
+  background-image:
+    linear-gradient(rgba(255,45,85,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,45,85,0.06) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+[data-theme="kawaii-teddy"] .ps-onboarding-overlay {
+  background: rgba(255, 192, 213, 0.55);
+}
+
+.ps-onboarding-card {
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
+  border-radius: var(--ps-radius-md);
+  padding: 22px 18px 16px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px var(--accent-glow);
+  text-align: center;
+  position: relative;
+  animation: ps-onb-pop 0.35s cubic-bezier(0.16, 1.4, 0.5, 1);
+}
+
+[data-theme="pixel-gamer"] .ps-onboarding-card {
+  border-radius: 0;
+  border-color: var(--accent-3);
+  background: var(--bg-card);
+}
+
+[data-theme="kawaii-teddy"] .ps-onboarding-card {
+  border-radius: var(--ps-radius-lg);
+  border: 3px solid var(--accent);
+  background: linear-gradient(160deg, #fff, var(--bg-card-2));
+}
+
+@keyframes ps-onb-pop {
+  0% { opacity: 0; transform: scale(0.85) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.ps-onboarding-mascot {
+  font-size: 48px;
+  margin-bottom: 6px;
+  animation: ps-mascot-bob 2s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px var(--accent-glow));
+}
+
+[data-theme="pixel-gamer"] .ps-onboarding-mascot {
+  animation: ps-mascot-pixel 0.6s steps(2) infinite;
+}
+
+.ps-onboarding-title {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  margin: 0 0 6px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+[data-theme="pixel-gamer"] .ps-onboarding-title {
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+[data-theme="kawaii-teddy"] .ps-onboarding-title {
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.ps-brand-accent {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+[data-theme="pixel-gamer"] .ps-brand-accent {
+  background: linear-gradient(90deg, var(--accent), var(--accent-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 8px var(--accent-glow);
+}
+
+.ps-onboarding-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+  line-height: 1.45;
+}
+
+.ps-onboarding-step {
+  text-align: left;
+  margin-bottom: 14px;
+}
+
+.ps-onb-label {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+[data-theme="pixel-gamer"] .ps-onb-label {
+  font-size: 9px;
+  color: var(--accent-3);
+  text-shadow: 0 0 4px var(--accent-glow);
+}
+
+[data-theme="kawaii-teddy"] .ps-onb-label {
+  font-size: 12px;
+}
+
+.ps-onb-theme-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.ps-onb-theme-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 6px;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  border-radius: var(--ps-radius-md);
+  cursor: pointer;
+  transition: all var(--ps-transition);
+  font-family: var(--font-body);
+}
+
+[data-theme="pixel-gamer"] .ps-onb-theme-btn {
+  border-radius: 0;
+  font-family: var(--font-mono);
+}
+
+[data-theme="kawaii-teddy"] .ps-onb-theme-btn {
+  border-radius: var(--ps-radius-md);
+}
+
+.ps-onb-theme-btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.ps-onb-theme-btn.active {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.ps-onb-theme-btn.active .ps-onb-name {
+  color: var(--accent);
+}
+
+.ps-onb-emoji { font-size: 26px; line-height: 1; }
+.ps-onb-name {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+[data-theme="pixel-gamer"] .ps-onb-name {
+  font-size: 9px;
+  letter-spacing: 0.5px;
+}
+
+.ps-onb-desc {
+  font-size: 9px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.ps-onb-input {
+  text-align: center;
+  font-size: 14px !important;
+  padding: 10px 12px !important;
+}
+
+.ps-onb-hint {
+  font-size: 9.5px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.ps-onb-footer {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+
+/* ===== Leaderboard rows ===== */
+.ps-leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-sm);
+  font-size: 11px;
+}
+
+[data-theme="pixel-gamer"] .ps-leaderboard-row {
+  border-radius: 0;
+  border-left: 2px solid var(--accent);
+}
+
+[data-theme="kawaii-teddy"] .ps-leaderboard-row {
+  border-radius: var(--ps-radius-pill);
+}
+
+.ps-lb-rank {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--bg-input);
+  border-radius: 50%;
+  color: var(--text-muted);
+}
+
+[data-theme="pixel-gamer"] .ps-lb-rank { border-radius: 0; font-family: var(--font-mono); }
+
+.ps-leaderboard-row:nth-child(1) .ps-lb-rank {
+  background: linear-gradient(135deg, #ffd700, #ffaa00);
+  color: #fff;
+}
+.ps-leaderboard-row:nth-child(2) .ps-lb-rank {
+  background: linear-gradient(135deg, #d4d4d4, #999);
+  color: #fff;
+}
+.ps-leaderboard-row:nth-child(3) .ps-lb-rank {
+  background: linear-gradient(135deg, #cd7f32, #8b4513);
+  color: #fff;
+}
+
+.ps-lb-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ps-lb-stats {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.ps-lb-stats strong {
+  display: block;
+  color: var(--accent);
+  font-size: 11px;
+}
+
+/* ===== Skip link in onboarding ===== */
+.ps-onb-skip {
+  display: block;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-decoration: none;
+  text-align: center;
+  transition: color 0.15s;
+}
+.ps-onb-skip:hover { color: var(--accent); }
+
+/* ═══════════════════════════════════════════════════════════
+   Prodigy Solvex v4.0 — Popup Animation Layer (append-only)
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes ps-pop-slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ps-pop-scale-in { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+@keyframes ps-pop-glow-pulse { 0%,100% { box-shadow: var(--shadow-accent); } 50% { box-shadow: var(--shadow-accent), 0 0 20px var(--accent-glow); } }
+@keyframes ps-pop-shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+@keyframes ps-pop-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+/* Entrance animations */
+.ps-header { animation: ps-pop-slide-up 0.3s ease backwards; }
+.ps-mascot { animation: ps-pop-scale-in 0.5s cubic-bezier(0.16,1.4,0.5,1) 0.1s backwards; }
+.ps-tabs { animation: ps-pop-slide-up 0.4s ease 0.05s backwards; }
+.ps-card { animation: ps-pop-slide-up 0.4s cubic-bezier(0.16,1,0.3,1) backwards; }
+.ps-card:nth-child(1) { animation-delay: 0.08s; }
+.ps-card:nth-child(2) { animation-delay: 0.16s; }
+.ps-card:nth-child(3) { animation-delay: 0.24s; }
+
+/* Logo glow pulse */
+.ps-logo { animation: ps-pop-glow-pulse 3s ease-in-out infinite; }
+
+/* Mascot floating */
+.ps-mascot-avatar { animation: ps-pop-float 2s ease-in-out infinite, ps-pop-scale-in 0.6s cubic-bezier(0.16,1.4,0.5,1) backwards; }
+
+/* Primary button shimmer */
+.ps-btn-primary {
+  background-size: 200% 100% !important;
+  animation: ps-pop-shimmer 4s linear infinite;
+}
+
+/* Card hover lift */
+.ps-card { transition: transform 0.2s ease; }
+.ps-card:hover { transform: translateY(-2px); }
+
+/* Tab content entrance */
+.ps-tab-content.active { animation: ps-pop-slide-up 0.25s ease; }
+
+/* Onboarding card pop */
+.ps-onboarding-card { animation: ps-pop-scale-in 0.4s cubic-bezier(0.16,1.4,0.5,1); }
+
+/* Toggle switch smooth */
+.ps-slider { transition: 0.3s !important; }
+.ps-slider::before { transition: 0.3s cubic-bezier(0.16,1,0.3,1) !important; }
+
+/* Key list item entrance */
+.ps-key-item { animation: ps-pop-slide-up 0.3s ease backwards; }
+
+/* Stat tile glow on hover */
+.ps-stat-tile { transition: transform 0.2s, box-shadow 0.2s; }
+.ps-stat-tile:hover { transform: translateY(-2px); box-shadow: 0 4px 16px var(--accent-glow); }
+
+/* Leaderboard row slide-in */
+.ps-leaderboard-row, .ps-history-item { animation: ps-pop-slide-up 0.3s ease backwards; }
+
+
+/* ===== PRODIGY Brand Eyebrow & Configurable Wait Timer Controls ===== */
+.ps-brand-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.ps-brand-eyebrow-sm {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.ps-setting-row-stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+.ps-setting-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.ps-wait-config-box {
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-sm);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+[data-theme="pixel-gamer"] .ps-wait-config-box {
+  border-radius: 0;
+  border-left: 2px solid var(--accent-3);
+}
+.ps-wait-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ps-wait-input-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.ps-wait-number-input {
+  width: 80px !important;
+  padding: 5px 8px !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 700;
+  text-align: center;
+}
+.ps-wait-unit {
+  font-size: 10.5px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+.ps-wait-presets {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.ps-preset-chip {
+  flex: 1;
+  min-width: 44px;
+  padding: 4px 6px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  background: var(--bg-input);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--ps-radius-sm);
+  cursor: pointer;
+  transition: all var(--ps-transition);
+  text-align: center;
+}
+[data-theme="pixel-gamer"] .ps-preset-chip {
+  border-radius: 0;
+}
+[data-theme="kawaii-teddy"] .ps-preset-chip {
+  border-radius: var(--ps-radius-pill);
+}
+.ps-preset-chip:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+.ps-preset-chip.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+[data-theme="pixel-gamer"] .ps-preset-chip.active {
+  color: var(--accent-3);
+  border-color: var(--accent-3);
+}

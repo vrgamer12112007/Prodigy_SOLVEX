@@ -1,0 +1,107 @@
+{
+  "manifest_version": 3,
+  "name": "Prodigy Solvex",
+  "version": "4.0.0",
+  "description": "Free AI solver for StepTest \u2014 modular architecture, 2 themes, animations, wait-and-answer mode.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Prodigy Solvex \u2014 Free AI Solver",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "solve_current_question": {
+      "description": "Scan and solve the current on-screen question",
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      }
+    },
+    "toggle_hud": {
+      "description": "Toggle the floating assistant widget",
+      "suggested_key": {
+        "default": "Ctrl+Shift+H",
+        "mac": "Command+Shift+H"
+      }
+    }
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "page_protection.js"
+      ],
+      "matches": [
+        "*://*.steptest.in/*",
+        "*://steptest.in/*"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "css": [
+        "content.css",
+        "animations.css"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "matches": [
+        "*://*.steptest.in/*",
+        "*://steptest.in/*"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "all_frames": true,
+      "js": [
+        "youtube_loop.js"
+      ],
+      "matches": [
+        "*://*.youtube.com/embed/*",
+        "*://youtube.com/embed/*",
+        "*://*.youtube-nocookie.com/embed/*",
+        "*://youtube-nocookie.com/embed/*",
+        "*://*.youtube.com/v/*",
+        "*://youtube.com/v/*"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "alarms"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "resources": [
+        "icons/*",
+        "page_protection.js",
+        "youtube_loop.js",
+        "dashboard.html",
+        "dashboard.js"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://api.jsonbin.io https://generativelanguage.googleapis.com"
+  }
+}

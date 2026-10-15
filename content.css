@@ -1,0 +1,933 @@
+/* ===================================================================
+   PRODIGY SOLVEX — content.css
+   Themed floating HUD injected into https://english.steptest.in/*
+   Two themes:
+     • pixel-gamer (default) — black + crimson, 8-bit
+     • kawaii-teddy          — pastel pink, teddy mascot
+   Theme is selected by adding `ps-theme-pixel-gamer` or
+   `ps-theme-kawaii-teddy` class to #prodigy-solvex-host.
+   =================================================================== */
+
+#prodigy-solvex-host {
+  all: initial;
+  position: fixed;
+  z-index: 2147483647;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+  top: 24px;
+  right: 24px;
+}
+
+#prodigy-solvex-host.power-off {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+#prodigy-solvex-host * {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+/* ================== PIXEL-GAMER THEME ================== */
+#prodigy-solvex-host.ps-theme-pixel-gamer {
+  --ps-bg: rgba(10, 10, 18, 0.95);
+  --ps-card-bg: rgba(20, 16, 28, 0.9);
+  --ps-border: #2e2740;
+  --ps-border-strong: #ff2d55;
+  --ps-text: #ffffff;
+  --ps-text-muted: #a8a4bc;
+  --ps-text-dim: #6a6578;
+  --ps-accent: #ff2d55;
+  --ps-accent-2: #ff6b35;
+  --ps-accent-3: #ffeb3b;
+  --ps-success: #00ff9d;
+  --ps-warning: #ffea00;
+  --ps-danger: #ff1744;
+  --ps-radius: 0;
+  --ps-font-heading: 'Press Start 2P', 'VT323', monospace;
+  --ps-font-body: 'Inter', system-ui, sans-serif;
+  --ps-font-mono: 'JetBrains Mono', monospace;
+  --ps-glow: 0 0 20px rgba(255, 45, 85, 0.5);
+}
+
+/* ================== KAWAII-TEDDY THEME ================== */
+#prodigy-solvex-host.ps-theme-kawaii-teddy {
+  --ps-bg: rgba(255, 250, 252, 0.96);
+  --ps-card-bg: rgba(255, 255, 255, 0.96);
+  --ps-border: #ffc9d9;
+  --ps-border-strong: #ff85a2;
+  --ps-text: #4a2c3a;
+  --ps-text-muted: #8a6677;
+  --ps-text-dim: #b08e9d;
+  --ps-accent: #ff6fa5;
+  --ps-accent-2: #ffb3d1;
+  --ps-accent-3: #c084fc;
+  --ps-success: #5ed4a6;
+  --ps-warning: #ffb84d;
+  --ps-danger: #ff6f91;
+  --ps-radius: 16px;
+  --ps-font-heading: 'Quicksand', 'Comic Sans MS', sans-serif;
+  --ps-font-body: 'Nunito', 'Quicksand', sans-serif;
+  --ps-font-mono: 'JetBrains Mono', monospace;
+  --ps-glow: 0 4px 16px rgba(255, 111, 165, 0.3);
+}
+
+/* ----- Floating Main Widget ----- */
+.ps-widget {
+  position: relative;
+  width: 320px;
+  background: var(--ps-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius);
+  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  color: var(--ps-text);
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-widget {
+  border-left: 3px solid var(--ps-accent);
+  background-image:
+    linear-gradient(rgba(255,45,85,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,45,85,0.04) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-widget {
+  border: 2px solid var(--ps-border);
+  box-shadow: 0 8px 24px rgba(255, 111, 165, 0.2), 0 0 0 4px rgba(255, 201, 217, 0.3);
+}
+
+.ps-widget.minimized { width: auto; border-radius: 9999px; }
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-widget.minimized { border-radius: 0; }
+.ps-widget.minimized .ps-widget-body { display: none; }
+
+/* ----- Header ----- */
+.ps-widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--ps-border);
+  cursor: grab;
+}
+
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-widget-header {
+  background: linear-gradient(135deg, var(--ps-accent-2), var(--ps-accent));
+  color: white;
+  border-bottom: 2px solid white;
+}
+
+.ps-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ps-font-heading);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--ps-text);
+}
+
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-brand {
+  font-size: 9px;
+  background: linear-gradient(90deg, var(--ps-accent), var(--ps-accent-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 8px var(--ps-glow);
+}
+
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-brand {
+  font-size: 14px;
+  font-weight: 800;
+  color: white;
+}
+
+.ps-brand-mascot {
+  font-size: 18px;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,0.5));
+  animation: ps-hud-bob 2s ease-in-out infinite;
+}
+
+@keyframes ps-hud-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.ps-icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--ps-text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  font-size: 14px;
+}
+.ps-icon-btn:hover { background: rgba(255,255,255,0.1); color: var(--ps-accent); }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-icon-btn { color: white; }
+
+/* Header actions container */
+.ps-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Dropdown auto-notice bar inside teleprompter */
+.ps-dropdown-auto-notice {
+  background: rgba(56, 189, 248, 0.12);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 8px 18px;
+  font-size: 12px;
+  color: #7dd3fc;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-dropdown-auto-notice {
+  background: rgba(255, 235, 59, 0.08);
+  border-bottom-color: var(--ps-accent-3);
+  color: var(--ps-accent-3);
+  font-family: var(--ps-font-mono);
+  font-size: 10px;
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-dropdown-auto-notice {
+  background: rgba(255, 111, 165, 0.12);
+  border-bottom-color: var(--ps-accent);
+  color: var(--ps-accent);
+  border-radius: 0;
+}
+
+/* ----- Body ----- */
+.ps-widget-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ----- Status bar ----- */
+.ps-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--ps-border);
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-status-bar { border-radius: 0; border-left: 2px solid var(--ps-accent); }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-status-bar { background: rgba(255, 111, 165, 0.1); border-radius: 12px; }
+
+.ps-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--ps-text-muted);
+}
+
+.ps-pulse-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--ps-success);
+  box-shadow: 0 0 8px var(--ps-success);
+  transition: background 0.2s;
+}
+.ps-pulse-dot.working { background: var(--ps-warning); box-shadow: 0 0 8px var(--ps-warning); animation: ps-blink 1s infinite alternate; }
+.ps-pulse-dot.error { background: var(--ps-danger); box-shadow: 0 0 8px var(--ps-danger); }
+
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-pulse-dot { border-radius: 0; }
+
+@keyframes ps-blink {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+.ps-question-badge {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(255, 45, 85, 0.2);
+  color: var(--ps-accent);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--ps-accent);
+  font-family: var(--ps-font-mono);
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-question-badge { border-radius: 0; font-size: 8px; }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-question-badge { border-radius: 9999px; background: var(--ps-accent); color: white; }
+
+/* ----- Buttons ----- */
+.ps-button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ps-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 14px;
+  background: linear-gradient(135deg, var(--ps-accent), var(--ps-accent-2));
+  border: none;
+  border-radius: var(--ps-radius);
+  color: white;
+  font-weight: 700;
+  font-size: 12px;
+  font-family: var(--ps-font-heading);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(255, 45, 85, 0.4);
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-btn-primary {
+  border: 2px solid var(--ps-accent-3);
+  border-radius: 0;
+  color: var(--ps-accent-3);
+  text-shadow: 0 0 4px var(--ps-accent-3);
+  font-size: 10px;
+}
+
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-btn-primary {
+  border-radius: 9999px;
+  font-size: 13px;
+  text-transform: none;
+  font-weight: 800;
+  box-shadow: 0 4px 0 #d44d7e, 0 8px 16px rgba(255, 111, 165, 0.3);
+}
+
+.ps-btn-primary:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.ps-btn-primary:active { transform: translateY(1px); }
+.ps-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.ps-btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius);
+  color: var(--ps-text);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-btn-secondary { border-radius: 0; border-left: 2px solid var(--ps-accent); font-family: var(--ps-font-mono); font-size: 11px; }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-btn-secondary { border-radius: 9999px; }
+.ps-btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--ps-accent); }
+
+/* ----- Toggle Switch ----- */
+.ps-switch {
+  position: relative;
+  display: inline-block;
+  width: 32px; height: 18px;
+}
+.ps-switch input { opacity: 0; width: 0; height: 0; }
+.ps-slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: 0.2s;
+  border-radius: 34px;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-slider { border-radius: 0; }
+.ps-slider:before {
+  position: absolute; content: "";
+  height: 12px; width: 12px;
+  left: 3px; bottom: 3px;
+  background-color: white;
+  transition: 0.2s;
+  border-radius: 50%;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-slider:before { border-radius: 0; }
+input:checked + .ps-slider { background-color: var(--ps-accent); }
+input:checked + .ps-slider:before { transform: translateX(14px); }
+
+/* ----- Result / Info box ----- */
+.ps-info-box {
+  display: none;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--ps-border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--ps-text);
+  max-height: 90px;
+  overflow-y: auto;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-info-box { border-radius: 0; border-left: 2px solid var(--ps-accent); font-family: var(--ps-font-mono); font-size: 11px; }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-info-box { border-radius: 12px; background: rgba(255, 111, 165, 0.08); }
+.ps-info-box.visible { display: block; }
+
+/* ----- Teleprompter Overlay (speaking questions) ----- */
+.ps-teleprompter-overlay {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(640px, 92vw);
+  background: var(--ps-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--ps-accent);
+  border-radius: var(--ps-radius);
+  box-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.7), 0 0 30px var(--ps-glow);
+  color: var(--ps-text);
+  overflow: hidden;
+  z-index: 2147483647;
+  animation: ps-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ps-teleprompter-overlay.active { display: block; }
+
+@keyframes ps-slide-up {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.ps-teleprompter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--ps-border);
+}
+
+.ps-teleprompter-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ps-font-heading);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ps-text);
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-teleprompter-title { font-size: 10px; color: var(--ps-accent-3); }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-teleprompter-title { font-size: 14px; color: var(--ps-accent); }
+
+.ps-teleprompter-badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(94, 212, 166, 0.18);
+  color: var(--ps-success);
+  border: 1px solid var(--ps-success);
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-teleprompter-badge { border-radius: 0; font-family: var(--ps-font-mono); font-size: 9px; }
+
+.ps-teleprompter-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ps-speech-text {
+  font-size: 19px;
+  line-height: 1.55;
+  font-weight: 500;
+  color: var(--ps-text);
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 6px;
+  user-select: text;
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-speech-text { font-size: 18px; }
+
+.ps-teleprompter-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid var(--ps-border);
+  font-size: 12px;
+  color: var(--ps-text-muted);
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-teleprompter-footer { background: rgba(255, 111, 165, 0.08); }
+
+.ps-teleprompter-notes {
+  font-style: italic;
+  font-size: 11px;
+  color: var(--ps-text-muted);
+}
+
+.ps-btn-copy {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--ps-border);
+  color: var(--ps-text);
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.15s;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-btn-copy { border-radius: 0; font-family: var(--ps-font-mono); font-size: 11px; }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-btn-copy { border-radius: 9999px; background: var(--ps-accent); color: white; border: none; font-weight: 700; }
+.ps-btn-copy:hover { background: rgba(255,255,255,0.16); }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-btn-copy:hover { background: var(--ps-accent-2); }
+
+/* ----- Toast ----- */
+.ps-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ps-bg);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--ps-border);
+  border-left: 3px solid var(--ps-accent);
+  border-radius: var(--ps-radius);
+  padding: 10px 16px;
+  color: var(--ps-text);
+  font-size: 12.5px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2147483647;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-toast { border-radius: 0; font-family: var(--ps-font-mono); font-size: 11px; }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-toast { border-radius: 16px; border: 2px solid var(--ps-accent); }
+.ps-toast.show { transform: translateY(0); opacity: 1; }
+
+/* ----- Dragging ----- */
+.ps-widget.ps-dragging, .ps-answer-banner.ps-dragging {
+  transition: none !important;
+  user-select: none !important;
+  cursor: grabbing !important;
+}
+.ps-widget.ps-dragging *, .ps-answer-banner.ps-dragging * {
+  cursor: grabbing !important;
+  user-select: none !important;
+}
+
+/* ----- Power off ----- */
+.ps-widget.power-off {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.ps-power-btn { color: var(--ps-success); font-size: 14px; }
+.ps-power-btn.off { color: var(--ps-danger); }
+
+/* ----- Answer Showcase Banner (large 5-sec popup) ----- */
+.ps-answer-banner {
+  display: none;
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  width: min(600px, 92vw);
+  background: var(--ps-bg);
+  backdrop-filter: blur(24px);
+  border: 2px solid var(--ps-success);
+  border-radius: var(--ps-radius);
+  box-shadow: 0 16px 48px -4px rgba(0, 0, 0, 0.8), 0 0 32px var(--ps-success);
+  color: var(--ps-text);
+  overflow: hidden;
+  z-index: 2147483647;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-answer-banner { border-radius: 0; border-color: var(--ps-accent-3); box-shadow: 0 16px 48px -4px rgba(0,0,0,0.8), 0 0 32px var(--ps-accent); }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-answer-banner { border-radius: 24px; border: 3px solid var(--ps-accent); box-shadow: 0 16px 48px -4px rgba(255, 111, 165, 0.5); }
+
+.ps-answer-banner.show {
+  display: block;
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.ps-answer-banner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  background: rgba(94, 212, 166, 0.15);
+  border-bottom: 1px solid var(--ps-success);
+  cursor: grab;
+  user-select: none;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-answer-banner-header { background: rgba(255, 45, 85, 0.15); border-bottom-color: var(--ps-accent); }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-answer-banner-header { background: rgba(255, 111, 165, 0.15); border-bottom-color: var(--ps-accent); }
+
+.ps-answer-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ps-success);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-family: var(--ps-font-mono);
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-answer-tag { color: var(--ps-accent-3); font-family: var(--ps-font-heading); font-size: 9px; }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-answer-tag { color: var(--ps-accent); font-family: var(--ps-font-heading); font-size: 12px; text-transform: none; }
+
+.ps-answer-banner-body {
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ps-answer-main-text {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ps-text);
+  line-height: 1.35;
+  word-break: break-word;
+  letter-spacing: 0.2px;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-answer-main-text { font-family: var(--ps-font-heading); font-size: 16px; color: var(--ps-accent-3); text-shadow: 0 0 8px var(--ps-accent); }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-answer-main-text { font-family: var(--ps-font-heading); font-size: 20px; color: var(--ps-accent); }
+
+.ps-answer-sub-text {
+  font-size: 15px;
+  color: var(--ps-text);
+  opacity: 0.85;
+  line-height: 1.5;
+  word-break: break-word;
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-answer-sub-text { color: var(--ps-text-muted); }
+
+.ps-answer-progress {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  overflow: hidden;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-answer-progress { height: 6px; background: var(--ps-bg); border: 1px solid var(--ps-border); }
+
+.ps-answer-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ps-success), var(--ps-accent));
+  width: 100%;
+  transform-origin: left;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-answer-progress-bar { background: linear-gradient(90deg, var(--ps-accent), var(--ps-accent-3)); }
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-answer-progress-bar { background: linear-gradient(90deg, var(--ps-accent), var(--ps-accent-3)); }
+
+.ps-answer-banner.animating .ps-answer-progress-bar {
+  animation: ps-answer-countdown 5s linear forwards;
+}
+
+@keyframes ps-answer-countdown {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+/* ----- Watermark (small, always visible inside the HUD) ----- */
+.ps-hud-watermark {
+  position: absolute;
+  bottom: 6px;
+  right: 10px;
+  font-size: 8.5px;
+  font-family: var(--ps-font-mono);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--ps-accent);
+  opacity: 0.5;
+  pointer-events: none;
+  text-transform: uppercase;
+  z-index: 5;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-hud-watermark {
+  color: var(--ps-accent-3);
+  text-shadow: 0 0 4px var(--ps-accent);
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-hud-watermark {
+  background: rgba(255, 111, 165, 0.1);
+  padding: 2px 6px;
+  border-radius: 9999px;
+  border: 1px solid var(--ps-border);
+}
+
+/* ----- Pixel scanlines overlay (pixel-gamer only) ----- */
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-widget::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0, rgba(0,0,0,0) 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 3px);
+  z-index: 4;
+}
+
+/* ----- Floating hearts / sparkles (kawaii-teddy only) ----- */
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-sparkle-float {
+  position: absolute;
+  pointer-events: none;
+  font-size: 14px;
+  animation: ps-sparkle-rise 2.5s ease-out forwards;
+  z-index: 5;
+}
+
+@keyframes ps-sparkle-rise {
+  0% { opacity: 0; transform: translateY(0) scale(0.5); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-40px) scale(1.2); }
+}
+
+
+/* ===== v4.0 Enhanced HUD Controls, Configurable Wait Timer & Action Row ===== */
+.ps-brand-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.ps-brand-sub {
+  font-size: 9px;
+  font-family: var(--ps-font-mono);
+  color: var(--ps-text-muted);
+  letter-spacing: 0.4px;
+  opacity: 0.85;
+  -webkit-text-fill-color: var(--ps-text-muted);
+  text-shadow: none;
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-brand-sub {
+  color: rgba(255, 255, 255, 0.9);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.9);
+}
+
+.ps-action-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.ps-kbd-hint {
+  font-size: 9px;
+  font-family: var(--ps-font-mono);
+  opacity: 0.8;
+  padding: 2px 5px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-kbd-hint {
+  border-radius: 0;
+  font-size: 8px;
+}
+
+.ps-btn-submit-now {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px 12px;
+  background: rgba(16, 185, 129, 0.16);
+  border: 1px solid var(--ps-success);
+  border-radius: var(--ps-radius);
+  color: var(--ps-success);
+  font-family: var(--ps-font-heading);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-btn-submit-now {
+  border-radius: 0;
+  border-width: 2px;
+  font-size: 9px;
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-btn-submit-now {
+  border-radius: 9999px;
+  background: rgba(94, 212, 166, 0.18);
+  color: #1f9d6e;
+  font-size: 12px;
+}
+.ps-btn-submit-now:hover {
+  background: var(--ps-success);
+  color: #0a0a12;
+  transform: translateY(-1px);
+}
+.ps-btn-submit-now:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ps-quick-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ps-wait-hud-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ps-hud-sec-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--ps-border);
+  border-radius: 6px;
+  padding: 1px 5px;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-hud-sec-box {
+  border-radius: 0;
+  border-color: var(--ps-accent);
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-hud-sec-box {
+  background: rgba(255, 111, 165, 0.12);
+  border-radius: 9999px;
+}
+.ps-hud-sec-input {
+  width: 44px;
+  background: transparent;
+  border: none;
+  color: var(--ps-accent-3);
+  font-family: var(--ps-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: right;
+  outline: none;
+  padding: 1px 0;
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-hud-sec-input {
+  color: var(--ps-accent);
+}
+.ps-hud-sec-unit {
+  font-size: 10px;
+  font-family: var(--ps-font-mono);
+  color: var(--ps-text-muted);
+}
+
+/* Configurable Wait Countdown Panel */
+.ps-wait-panel {
+  display: none;
+  flex-direction: column;
+  gap: 7px;
+  padding: 9px 11px;
+  background: rgba(255, 234, 0, 0.08);
+  border: 1px solid var(--ps-warning);
+  border-radius: 8px;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-wait-panel {
+  border-radius: 0;
+  border-left: 3px solid var(--ps-warning);
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-wait-panel {
+  border-radius: 12px;
+  background: rgba(255, 184, 77, 0.14);
+}
+.ps-wait-panel.active {
+  display: flex;
+}
+
+.ps-wait-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.ps-wait-label {
+  font-family: var(--ps-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ps-warning);
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-wait-label {
+  color: #d97706;
+}
+
+.ps-btn-skip-wait {
+  background: var(--ps-accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--ps-font-mono);
+  cursor: pointer;
+  transition: transform 0.15s, filter 0.15s;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-btn-skip-wait {
+  border-radius: 0;
+  border: 1px solid var(--ps-accent-3);
+  color: var(--ps-accent-3);
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-btn-skip-wait {
+  border-radius: 9999px;
+}
+.ps-btn-skip-wait:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+.ps-wait-progress-track {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-wait-progress-track {
+  border-radius: 0;
+}
+.ps-wait-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--ps-warning), var(--ps-accent));
+  transition: width 0.4s linear;
+}
+
+.ps-btn-copy-mini {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--ps-border);
+  color: var(--ps-text);
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-family: var(--ps-font-mono);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+#prodigy-solvex-host.ps-theme-pixel-gamer .ps-btn-copy-mini {
+  border-radius: 0;
+}
+#prodigy-solvex-host.ps-theme-kawaii-teddy .ps-btn-copy-mini {
+  border-radius: 9999px;
+  background: var(--ps-accent);
+  color: #fff;
+  border: none;
+}
+.ps-btn-copy-mini:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--ps-accent);
+}

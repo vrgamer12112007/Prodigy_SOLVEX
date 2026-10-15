@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="pixel-gamer">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prodigy Solvex — Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=JetBrains+Mono:wght@400;700&family=Quicksand:wght@400;600;700&family=Nunito:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Brand watermark -->
+  <div class="ps-watermark">⚡ Prodigy Solvex</div>
+
+  <!-- ===== ONBOARDING MODAL (hidden by default — shown by popup.js only when needed) ===== -->
+  <div id="ps-onboarding" class="ps-onboarding-overlay" style="display: none;">
+    <div class="ps-onboarding-card">
+      <div class="ps-onboarding-mascot" id="ps-onb-mascot">🎮</div>
+      <div class="ps-brand-eyebrow">PRODIGY LABS PRESENTS</div>
+      <h2 class="ps-onboarding-title">Welcome to <span class="ps-brand-accent">SOLVEX</span></h2>
+      <p class="ps-onboarding-sub">Free, unlimited AI solving for StepTest & online assessments. Pick your vibe and tell us what to call you.</p>
+
+      <div class="ps-onboarding-step">
+        <div class="ps-onb-label">① Choose your theme</div>
+        <div class="ps-onb-theme-row">
+          <button id="ps-onb-theme-pixel" class="ps-onb-theme-btn active" type="button">
+            <span class="ps-onb-emoji">🎮</span>
+            <span class="ps-onb-name">Pixel Gamer</span>
+            <span class="ps-onb-desc">Red + 8-bit arcade</span>
+          </button>
+          <button id="ps-onb-theme-kawaii" class="ps-onb-theme-btn" type="button">
+            <span class="ps-onb-emoji">🧸</span>
+            <span class="ps-onb-name">Kawaii Teddy</span>
+            <span class="ps-onb-desc">Pink + teddy bear</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="ps-onboarding-step">
+        <div class="ps-onb-label">② Pick your display name</div>
+        <input type="text" id="ps-onb-username" class="ps-input ps-onb-input" placeholder="e.g. Pixel Falcon, Teddy Cloud..." maxlength="24" autocomplete="off">
+        <div class="ps-onb-hint">This name shows up on the global leaderboard. You can change it later in the Stats tab.</div>
+      </div>
+
+      <button id="ps-onb-submit" class="ps-btn ps-btn-primary ps-btn-block" type="button" disabled>
+        🚀 Start Solving
+      </button>
+
+      <div class="ps-onb-footer">⚡ Prodigy Solvex — Free forever</div>
+    </div>
+  </div>
+
+  <div class="ps-container">
+    <!-- ========== HEADER ========== -->
+    <header class="ps-header">
+      <div class="ps-brand">
+        <div class="ps-logo">🧩</div>
+        <div class="ps-brand-text">
+          <div class="ps-brand-eyebrow-sm">PRODIGY</div>
+          <h1>SOLVEX <span style="font-size:10px;opacity:0.8;">v4.0</span></h1>
+          <div class="ps-version-tag">PRODIGY AI PRODUCT • FREE</div>
+        </div>
+      </div>
+      <div class="ps-theme-switcher">
+        <button id="theme-pixel" class="ps-theme-btn active" type="button" title="Pixel Gamer theme (boys)">🎮</button>
+        <button id="theme-kawaii" class="ps-theme-btn" type="button" title="Kawaii Teddy theme (girls)">🧸</button>
+      </div>
+    </header>
+
+    <!-- ========== MASCOT ========== -->
+    <div id="ps-mascot" class="ps-mascot">
+      <div class="ps-mascot-avatar" id="ps-mascot-avatar">🎮</div>
+      <div class="ps-mascot-text">
+        <div class="ps-mascot-name" id="ps-mascot-name">Pixel Falcon</div>
+        <div class="ps-mascot-message" id="ps-mascot-message">Ready to dominate this test. Press Alt+S or click Solve.</div>
+      </div>
+    </div>
+
+    <!-- ========== TABS ========== -->
+    <div class="ps-tabs">
+      <button class="ps-tab active" data-tab="solver">Solver</button>
+      <button class="ps-tab" data-tab="stats">Stats</button>
+      <button class="ps-tab" data-tab="history">History</button>
+      <button class="ps-tab" data-tab="settings">Settings</button>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TAB: SOLVER (API Keys + Quick Solve info)   -->
+    <!-- ============================================ -->
+    <div class="ps-tab-content active" data-tab-content="solver">
+
+      <!-- Power card -->
+      <section class="ps-card">
+        <div class="ps-power-row">
+          <div class="ps-power-info">
+            <span class="ps-power-title">Extension Power</span>
+            <span id="ps-power-status" class="ps-power-status off">Paused</span>
+          </div>
+          <label class="ps-switch">
+            <input type="checkbox" id="ps-power-toggle">
+            <span class="ps-slider"></span>
+          </label>
+        </div>
+
+        <!-- Quick action buttons (work even if keyboard shortcuts aren't registered) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px;">
+          <button id="ps-quick-solve" class="ps-btn ps-btn-primary" type="button" style="font-size: 10px; padding: 9px 6px;">
+            ⚡ Solve This Tab
+          </button>
+          <button id="ps-quick-toggle-hud" class="ps-btn ps-btn-secondary" type="button" style="font-size: 10px; padding: 9px 6px;">
+            🪟 Toggle HUD
+          </button>
+        </div>
+        <div class="ps-subtext" style="margin-top: 8px; text-align: center;">
+          Shortcuts: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> / <kbd>H</kbd>
+        </div>
+
+        <!-- Open dashboard -->
+        <button id="ps-open-dashboard" class="ps-btn ps-btn-secondary ps-btn-block" type="button" style="margin-top: 8px; font-size: 11px;">
+          📊 Open Live Dashboard
+        </button>
+      </section>
+
+      <!-- API Key Pool -->
+      <section class="ps-card">
+        <div class="ps-card-header">
+          <span class="ps-card-title">🔑 API Key Pool</span>
+          <span id="ps-key-count" class="ps-badge off">0 / 10</span>
+        </div>
+
+        <div class="ps-input-row">
+          <div class="ps-input-row" style="flex:1;">
+            <input type="password" id="ps-new-key" class="ps-input" placeholder="Paste Gemini API key (AIzaSy...)" spellcheck="false" autocomplete="off">
+            <button id="ps-toggle-key-vis" class="ps-icon-btn" type="button" title="Show / Hide">👁</button>
+          </div>
+          <button id="ps-add-key" class="ps-btn ps-btn-primary" type="button">+ Add</button>
+        </div>
+
+        <div id="ps-key-feedback" class="ps-feedback"></div>
+
+        <div id="ps-keys-list" class="ps-keys-list"></div>
+
+        <button id="ps-refresh-keys" class="ps-btn ps-btn-secondary ps-btn-block" type="button" style="margin-top:8px;">
+          🔄 Refresh All Limits
+        </button>
+      </section>
+
+      <!-- Auto Model -->
+      <section class="ps-card">
+        <div class="ps-power-row">
+          <div class="ps-power-info">
+            <span class="ps-power-title">✨ AI Model</span>
+            <span id="ps-active-model" class="ps-power-status">Auto-Selected</span>
+          </div>
+          <span class="ps-badge off" id="ps-model-badge">Auto</span>
+        </div>
+        <div class="ps-form-group" style="margin-top: 10px;">
+          <div class="ps-label-row">
+            <label class="ps-label" for="ps-speed-slider">Interaction Pacing</label>
+            <span id="ps-speed-value" class="ps-subtext">250 ms</span>
+          </div>
+          <input type="range" id="ps-speed-slider" min="0" max="800" step="50" value="250" class="ps-range">
+          <div class="ps-subtext">Adds natural delay between clicks &amp; keystrokes.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TAB: STATS                                   -->
+    <!-- ============================================ -->
+    <div class="ps-tab-content" data-tab-content="stats">
+      <section class="ps-card">
+        <div class="ps-card-header">
+          <span class="ps-card-title">📊 Your Stats</span>
+          <span id="ps-username-pill" class="ps-username-pill" title="Click to change your display name">
+            <span id="ps-username">Pixel Falcon</span> ✏️
+          </span>
+        </div>
+
+        <div class="ps-stats-grid">
+          <div class="ps-stat-tile">
+            <div class="ps-stat-label">Solved</div>
+            <div class="ps-stat-value" id="ps-stat-solves">0</div>
+            <div class="ps-stat-sub">total questions</div>
+          </div>
+          <div class="ps-stat-tile">
+            <div class="ps-stat-label">Active</div>
+            <div class="ps-stat-value" id="ps-stat-minutes">0m</div>
+            <div class="ps-stat-sub">time spent</div>
+          </div>
+          <div class="ps-stat-tile">
+            <div class="ps-stat-label">Sessions</div>
+            <div class="ps-stat-value" id="ps-stat-sessions">0</div>
+            <div class="ps-stat-sub">browser visits</div>
+          </div>
+          <div class="ps-stat-tile">
+            <div class="ps-stat-label">Member since</div>
+            <div class="ps-stat-value" id="ps-stat-since">—</div>
+            <div class="ps-stat-sub">days ago</div>
+          </div>
+        </div>
+
+        <div class="ps-global-stats">
+          <div class="ps-global-stat">
+            <strong id="ps-global-users">—</strong>
+            <span>Total users</span>
+          </div>
+          <div class="ps-global-stat">
+            <strong id="ps-global-solves">—</strong>
+            <span>Questions solved</span>
+          </div>
+          <div class="ps-global-stat">
+            <strong id="ps-global-minutes">—</strong>
+            <span>Active minutes</span>
+          </div>
+        </div>
+
+        <button id="ps-sync-btn" class="ps-btn ps-btn-secondary ps-btn-block" type="button" style="margin-top: 12px;">
+          ☁️ Sync to Cloud
+        </button>
+        <div id="ps-sync-feedback" class="ps-feedback"></div>
+      </section>
+
+      <!-- Leaderboard -->
+      <section class="ps-card" style="margin-top: 12px;">
+        <div class="ps-card-header">
+          <span class="ps-card-title">🏆 Leaderboard</span>
+          <button id="ps-refresh-leaderboard" class="ps-icon-btn" type="button" title="Refresh">🔄</button>
+        </div>
+        <div id="ps-leaderboard-list" class="ps-history-list" style="max-height: 200px;">
+          <div class="ps-history-empty">Loading top solvers...</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TAB: HISTORY                                 -->
+    <!-- ============================================ -->
+    <div class="ps-tab-content" data-tab-content="history">
+      <section class="ps-card">
+        <div class="ps-card-header">
+          <span class="ps-card-title">📜 Question History</span>
+          <button id="ps-clear-history" class="ps-icon-btn" type="button" title="Clear history">🗑</button>
+        </div>
+        <div id="ps-history-list" class="ps-history-list">
+          <div class="ps-history-empty">No questions solved yet. Open a StepTest page and hit Alt+S.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TAB: SETTINGS                                 -->
+    <!-- ============================================ -->
+    <div class="ps-tab-content" data-tab-content="settings">
+      <section class="ps-card">
+        <div class="ps-card-header">
+          <span class="ps-card-title">⚙️ Automation</span>
+        </div>
+
+        <div class="ps-setting-row">
+          <div class="ps-setting-info">
+            <div class="ps-setting-title">🎯 Answer Popup <span id="ps-badge-answer" class="ps-badge off">Off</span></div>
+            <div class="ps-setting-desc">Display the floating answer showcase HUD on screen.</div>
+          </div>
+          <label class="ps-switch"><input type="checkbox" id="ps-toggle-answer"><span class="ps-slider"></span></label>
+        </div>
+
+        <div class="ps-setting-row">
+          <div class="ps-setting-info">
+            <div class="ps-setting-title">⚡ Auto-Submit <span id="ps-badge-autosubmit" class="ps-badge off">Off</span></div>
+            <div class="ps-setting-desc">Auto-clicks Start, submits answers, and clicks Next / Continue.</div>
+          </div>
+          <label class="ps-switch"><input type="checkbox" id="ps-toggle-autosubmit"><span class="ps-slider"></span></label>
+        </div>
+
+        <div class="ps-setting-row ps-setting-row-stack">
+          <div class="ps-setting-top">
+            <div class="ps-setting-info">
+              <div class="ps-setting-title">⏳ Wait and Answer (<span id="ps-wait-seconds-title">200</span>s) <span id="ps-badge-waitanswer" class="ps-badge off">Off</span></div>
+              <div class="ps-setting-desc">Waits <span id="ps-wait-seconds-desc">200</span> seconds BEFORE answering each question. Fully customizable timer.</div>
+            </div>
+            <label class="ps-switch"><input type="checkbox" id="ps-toggle-waitanswer"><span class="ps-slider"></span></label>
+          </div>
+          <div class="ps-wait-config-box">
+            <div class="ps-wait-input-group">
+              <label for="ps-wait-seconds-input" class="ps-wait-input-label">Timer (sec):</label>
+              <input type="number" id="ps-wait-seconds-input" class="ps-input ps-wait-number-input" min="5" max="3600" step="5" value="200">
+              <span class="ps-wait-unit">seconds</span>
+            </div>
+            <div class="ps-wait-presets">
+              <button type="button" class="ps-preset-chip" data-wait-preset="30">30s</button>
+              <button type="button" class="ps-preset-chip" data-wait-preset="60">60s</button>
+              <button type="button" class="ps-preset-chip" data-wait-preset="120">120s</button>
+              <button type="button" class="ps-preset-chip active" data-wait-preset="200">200s</button>
+              <button type="button" class="ps-preset-chip" data-wait-preset="300">300s</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ps-setting-row">
+          <div class="ps-setting-info">
+            <div class="ps-setting-title">🎬 Auto-Play Video <span id="ps-badge-autoplay" class="ps-badge off">Off</span></div>
+            <div class="ps-setting-desc">Plays YouTube &amp; Step HTML5 video once per question set.</div>
+          </div>
+          <label class="ps-switch"><input type="checkbox" id="ps-toggle-autoplay"><span class="ps-slider"></span></label>
+        </div>
+
+        <div class="ps-setting-row">
+          <div class="ps-setting-info">
+            <div class="ps-setting-title">🔁 Auto-Loop Video <span id="ps-badge-autoloop" class="ps-badge off">Off</span></div>
+            <div class="ps-setting-desc">Continuously loops video upon completion.</div>
+          </div>
+          <label class="ps-switch"><input type="checkbox" id="ps-toggle-autoloop"><span class="ps-slider"></span></label>
+        </div>
+
+        <div class="ps-setting-row">
+          <div class="ps-setting-info">
+            <div class="ps-setting-title">🛡️ Block Tab-Switching <span id="ps-badge-antitab" class="ps-badge off">Off</span></div>
+            <div class="ps-setting-desc">Prevents the website from detecting tab switching or blur.</div>
+          </div>
+          <label class="ps-switch"><input type="checkbox" id="ps-toggle-antitab"><span class="ps-slider"></span></label>
+        </div>
+
+        <div class="ps-setting-row">
+          <div class="ps-setting-info">
+            <div class="ps-setting-title">⏳ Keep Website Active <span id="ps-badge-keepactive" class="ps-badge off">Off</span></div>
+            <div class="ps-setting-desc">Prevents idle timeouts &amp; logs continuous time spent.</div>
+          </div>
+          <label class="ps-switch"><input type="checkbox" id="ps-toggle-keepactive"><span class="ps-slider"></span></label>
+        </div>
+      </section>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="ps-footer">
+      <div class="ps-shortcut">
+        <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> Solve • <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>H</kbd> HUD
+      </div>
+      <div>⚡ Prodigy Solvex</div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
